@@ -90,15 +90,12 @@ The main() function initializes the monitoring by calling ClipboardMonitor::star
 Alternatively, if you're using a command-line interface like g++ (MinGW), you can use the following command:
 
 ```bash
+cd path/to/your/directory
 g++ main.cpp clipboard_monitor.cpp filesystem_monitor.cpp -o MonitorApp -lacl
 ```
 ### Step 3: Run the program
 Once compiled, run the executable (MonitorApp.exe). The program will start monitoring the specified directory and clipboard for any restricted actions.
 ```bash
-# Step 1: Navigate to the directory containing MonitorApp.exe
-cd path/to/your/directory
-
-# Step 2: Run MonitorApp.exe
 ./MonitorApp.exe
 ```
 
