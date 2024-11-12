@@ -28,6 +28,7 @@ To run this project, you will need:
 - A Windows operating system (the project is specifically built for Windows).
 - A C++ development environment (like Microsoft Visual Studio, or MinGW).
 - Windows SDK (for access to Windows APIs like Windows.h, AclAPI.h).
+
 ## Directory Structure
 ```bash
 /project-root
@@ -74,14 +75,17 @@ The main() function initializes the monitoring by calling ClipboardMonitor::star
 - New files and directories are blocked by denying write access at the filesystem level.
 
 ## Compilation Instructions
-### Step 1: Set up your C++ development environment
-You need to have a C++ development environment such as Microsoft Visual Studio or MinGW installed on your machine.
+### Step 1: Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/Data-Security-Sentinel.git
+   cd clipboard-filesystem-monitor
+   ```
 
 ### Step 2: Compile the code
-     1. Open your C++ IDE (e.g., Visual Studio) and create a new C++ project.
-     2. Add all the source files (main.cpp, clipboard_monitor.cpp, filesystem_monitor.cpp) and header files (clipboard_monitor.h, filesystem_monitor.h) to your project.
-     3. Ensure that your project is configured to link against the Windows SDK libraries, especially for Windows-specific functions like AclAPI.h, windows.h, etc.
-     4. Compile the project using your IDE's build options.
+1. Open your C++ IDE (e.g., Visual Studio) and create a new C++ project.
+2. Add all the source files (main.cpp, clipboard_monitor.cpp, filesystem_monitor.cpp) and header files (clipboard_monitor.h, filesystem_monitor.h) to your project.
+3. Ensure that your project is configured to link against the Windows SDK libraries, especially for Windows-specific functions like AclAPI.h, windows.h, etc.
+4. Compile the project using your IDE's build options.
 
 Alternatively, if you're using a command-line interface like g++ (MinGW), you can use the following command:
 
@@ -90,11 +94,18 @@ g++ main.cpp clipboard_monitor.cpp filesystem_monitor.cpp -o MonitorApp -lacl
 ```
 ### Step 3: Run the program
 Once compiled, run the executable (MonitorApp.exe). The program will start monitoring the specified directory and clipboard for any restricted actions.
+```bash
+# Step 1: Navigate to the directory containing MonitorApp.exe
+cd path/to/your/directory
+
+# Step 2: Run MonitorApp.exe
+./MonitorApp.exe
+```
 
 ## Troubleshooting
-  1. Failed to open directory for monitoring:
+1. Failed to open directory for monitoring:
 
-  - Ensure the directory exists and the program has proper permissions to access it.
+- Ensure the directory exists and the program has proper permissions to access it.
 - You may need to run the program with administrator privileges to modify file system permissions.
 2. Permission errors when setting file or directory protection:
 
