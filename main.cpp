@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-    string root_dir = "Y:\\Detrator_Task\\test folder";
+    string root_dir = "Y:\\Detrator_Task\\root";
 
     // Restrict write access on the root directory
     wstring w_root_dir(root_dir.begin(), root_dir.end());
