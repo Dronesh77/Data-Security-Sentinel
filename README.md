@@ -3,20 +3,16 @@
 ## Overview
 This project monitors both the clipboard and filesystem for specific activities within a specified root directory. It is designed to:
 
-- Prevent users from copying files or directories within the root directory to the clipboard.
-- Restrict write access to files in the root directory by setting them to read-only.
-- Detect and block the creation or modification of files within the root directory.
+- Prevent users from copying files or directories within the root directory and outside the directory to the clipboard.
+
 
 ## Key Features
 - Clipboard Monitoring: Monitors the clipboard for any file paths being copied, and if the path belongs to the restricted directory, the content is cleared.
-- Filesystem Monitoring: Monitors the filesystem for any changes (additions, deletions, modifications, renames) in the specified directory and ensures that files are set to read-only after modification or addition.
-- Directory Protection: Prevents the creation of new files or directories within the specified directory by setting appropriate file permissions.
 - Cross-platform (Windows-only currently): This solution uses Windows-specific APIs (Windows.h, AclAPI.h) and is compatible with Windows operating systems.
 ## Table of Contents
 1. Project Setup
 2. Directory Structure
 3. How It Works
-4. Monitoring Details
 5. Compilation Instructions
 6. Troubleshooting
 7. Contributions
@@ -35,8 +31,6 @@ To run this project, you will need:
     ├── main.cpp            # Main entry point for the application.
     ├── clipboard_monitor.cpp # Clipboard monitoring implementation.
     ├── clipboard_monitor.h   # Header file for clipboard monitoring.
-    ├── filesystem_monitor.cpp # Filesystem monitoring implementation.
-    ├── filesystem_monitor.h   # Header file for filesystem monitoring.
     └── README.md           # This file.
 ```    
 ## How It Works
@@ -46,44 +40,27 @@ The ClipboardMonitor class monitors the clipboard for any copied content that ma
 Important functions:
 
 - OpenClipboard(): Opens the clipboard for access.
-- GetClipboardData(CF_TEXT): Retrieves text content from the clipboard.
-- GlobalLock() and GlobalUnlock(): Locks and unlocks global memory (used for clipboard data).
 - EmptyClipboard(): Clears the clipboard content.
 - CloseClipboard(): Closes the clipboard access.
-### Filesystem Monitoring (filesystem_monitor)
-The FileSystemMonitor class monitors a specified directory for changes (e.g., file creation, deletion, modification). It uses the ReadDirectoryChangesW function to detect changes in real-time and takes the following actions:
-
-- Block file creation: Sets permissions to deny the creation of new files in the monitored directory.
-- Block file modifications: When files are modified or renamed, their permissions are set to read-only to prevent further modifications.
-Important functions:
-
-- CreateFileW(): Opens a directory for monitoring.
-- ReadDirectoryChangesW(): Monitors changes in the specified directory.
-- SetDirectoryProtection() and SetReadOnlyPermissions(): Modify directory and file permissions to block specific actions like write or delete.
 
 ### Main Function (main.cpp)
-The main() function initializes the monitoring by calling ClipboardMonitor::start() and FileSystemMonitor::start() on a specified directory path. It then enters an infinite loop (while (true)) to keep the application running, periodically checking the clipboard and filesystem.
+The main() function initializes the monitoring by calling ClipboardMonitor::start() on a specified directory path. It then enters an infinite loop (while (true)) to keep the application running, periodically checking the clipboard and filesystem.
 
 ## Monitoring Details
 ### Clipboard Monitoring:
 - The clipboard is continuously monitored. If any text is copied that contains a file path within the restricted directory, the text is removed from the clipboard to prevent its use.
 - Only paths that contain the restricted directory path are blocked.
-### Filesystem Monitoring:
-- Filesystem monitoring starts immediately upon initialization of the program.
-- Any file or directory creation, modification, or renaming is detected.
-- Files that are modified or newly created in the monitored directory are set to read-only permissions immediately.
-- New files and directories are blocked by denying write access at the filesystem level.
 
 ## Compilation Instructions
 ### Step 1: Clone the repository:
    ```bash
    git clone https://github.com/yourusername/Data-Security-Sentinel.git
-   cd clipboard-filesystem-monitor
+   cd Data-Security-Sentinel
    ```
 
 ### Step 2: Compile the code
 1. Open your C++ IDE (e.g., Visual Studio) and create a new C++ project.
-2. Add all the source files (main.cpp, clipboard_monitor.cpp, filesystem_monitor.cpp) and header files (clipboard_monitor.h, filesystem_monitor.h) to your project.
+2. Add all the source files (main.cpp, clipboard_monitor.cpp) and header files (clipboard_monitor.h) to your project.
 3. Ensure that your project is configured to link against the Windows SDK libraries, especially for Windows-specific functions like AclAPI.h, windows.h, etc.
 4. Compile the project using your IDE's build options.
 
@@ -91,7 +68,7 @@ Alternatively, if you're using a command-line interface like g++ (MinGW), you ca
 
 ```bash
 cd path/to/your/directory
-g++ main.cpp clipboard_monitor.cpp filesystem_monitor.cpp -o MonitorApp -lacl
+g++ main.cpp clipboard_monitor.cpp -o MonitorApp -lacl
 ```
 ### Step 3: Run the program
 Once compiled, run the executable (MonitorApp.exe). The program will start monitoring the specified directory and clipboard for any restricted actions.
