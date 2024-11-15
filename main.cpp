@@ -1,5 +1,4 @@
 #include "clipboard_monitor.h"
-#include "filesystem_monitor.h"
 #include <windows.h>  
 
 using namespace std;
@@ -12,7 +11,6 @@ int main() {
 
     // Start clipboard and filesystem monitoring
     ClipboardMonitor::start(root_dir);
-    FileSystemMonitor::start(root_dir);
 
     // Keep the application running to monitor
     while (true) {
@@ -21,3 +19,5 @@ int main() {
 
     return 0;
 }
+
+
